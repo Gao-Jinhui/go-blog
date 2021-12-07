@@ -16,11 +16,8 @@ import (
 func GetTags(c *gin.Context) {
 	var request interfaces.GetTagsRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
-		code := e.INVALID_PARAMS
-		c.JSON(http.StatusOK, interfaces.BaseResponse{
-			Code: code,
-			Msg:  e.GetMsg(code),
-		})
+		response := InvalidParamsResponse()
+		c.JSON(http.StatusOK, response)
 		return
 	} else {
 		response := new(interfaces.GetTagsResponse)
@@ -37,11 +34,8 @@ func GetTags(c *gin.Context) {
 func AddTag(c *gin.Context) {
 	var request interfaces.AddTagRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
-		code := e.INVALID_PARAMS
-		c.JSON(http.StatusOK, interfaces.BaseResponse{
-			Code: code,
-			Msg:  e.GetMsg(code),
-		})
+		response := InvalidParamsResponse()
+		c.JSON(http.StatusOK, response)
 		return
 	} else {
 		response := new(interfaces.AddTagResponse)
@@ -70,9 +64,40 @@ func AddTag(c *gin.Context) {
 
 //修改文章标签
 func EditTag(c *gin.Context) {
-
+	var request interfaces.EditTagRequest
+	if err := c.ShouldBindJSON(&request); err != nil {
+		response := InvalidParamsResponse()
+		c.JSON(http.StatusOK, response)
+		return
+	} else {
+		response := new(interfaces.EditTagResponse)
+		validate := validator.New()
+		if err := validate.Struct(&request); err != nil {
+			for _, err := range err.(validator.ValidationErrors) {
+				response.Error = append(response.Error, err.Error())
+			}
+			response.Code = e.INVALID_PARAMS
+			return
+		} else {
+			if !models.ExistTagByID(request.ID) {
+				response.Code = e.ERROR_NOT_EXIST_TAG
+			} else {
+				response.Code = e.SUCCESS
+				models.EditTag(request.ID, request)
+			}
+		}
+		response.Msg = e.GetMsg(response.Code)
+		c.JSON(http.StatusOK, response)
+	}
 }
 
 //删除文章标签
 func DeleteTag(c *gin.Context) {
+}
+
+func InvalidParamsResponse() *interfaces.BaseResponse {
+	res := new(interfaces.BaseResponse)
+	res.Code = e.INVALID_PARAMS
+	res.Msg = e.GetMsg(res.Code)
+	return res
 }
