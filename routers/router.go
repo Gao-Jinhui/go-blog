@@ -1,0 +1,28 @@
+package routers
+
+import (
+	v1 "go-blog/routers/api/v1"
+	"go-blog/setting"
+
+	"github.com/gin-gonic/gin"
+)
+
+func InitRouter() *gin.Engine {
+	r := gin.New()
+
+	r.Use(gin.Logger())
+
+	r.Use(gin.Recovery())
+
+	gin.SetMode(setting.RunMode)
+
+	apiv1 := r.Group("/v1")
+	{
+		apiv1.POST("/tags/get", v1.GetTags)
+		apiv1.POST("/tags/add", v1.AddTag)
+		apiv1.POST("/tags/update", v1.EditTag)
+		apiv1.POST("/tags/delete", v1.DeleteTag)
+	}
+
+	return r
+}
