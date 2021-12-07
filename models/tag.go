@@ -9,8 +9,8 @@ type Tag struct {
 	State      int    `json:"state"`
 }
 
-func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
-	db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&tags)
+func GetTags(pageNum int, pageSize int, filter interface{}) (tags []Tag) {
+	db.Where(filter).Offset(pageNum).Limit(pageSize).Find(&tags)
 
 	return
 }

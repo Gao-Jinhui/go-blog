@@ -8,6 +8,7 @@ type GetTagsRequest struct {
 }
 
 type GetTagsResponse struct {
-	Lists []models.Tag `json:"lists"`
-	Total int          `json:"total"`
+	BaseResponse `json:"status"`
+	Lists        []models.Tag `json:"lists"`
+	Total        int          `json:"total"`
 }
