@@ -2,10 +2,11 @@ package interfaces
 
 type AddTagRequest struct {
 	Name      string `json:"name" validate:"required,max=20"`
-	State     int    `json:"state" validate:"required,gte=0,lte=1"`
+	State     int    `json:"state" validate:"gte=0,lte=1"`
 	CreatedBy string `json:"created_by" validate:"required,lte=100"`
 }
 
 type AddTagResponse struct {
-	BaseResponse
+	BaseResponse `json:"status"`
+	Error        []string `json:"error"`
 }
