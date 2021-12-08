@@ -22,7 +22,7 @@ func GetTags(c *gin.Context) {
 		return
 	} else {
 		response := new(interfaces.GetTagsResponse)
-		filter := ConvertToFilter(request)
+		filter := ConvertToMap(request)
 		response.Lists = models.GetTags(util.GetPage(c), setting.PageSize, filter)
 		response.Total = models.GetTagTotal(filter)
 		response.Code = e.SUCCESS
@@ -85,7 +85,8 @@ func EditTag(c *gin.Context) {
 				response.Code = e.ERROR_NOT_EXIST_TAG
 			} else {
 				response.Code = e.SUCCESS
-				models.EditTag(request.ID, request)
+				data := ConvertToMap(request)
+				models.EditTag(request.ID, data)
 			}
 		}
 		response.Msg = e.GetMsg(response.Code)
@@ -104,7 +105,7 @@ func InvalidParamsResponse() *interfaces.BaseResponse {
 	return res
 }
 
-func ConvertToFilter(request interface{}) map[string]interface{} {
+func ConvertToMap(request interface{}) map[string]interface{} {
 	typeOfRequest := reflect.TypeOf(request)
 	valueOfRequest := reflect.ValueOf(request)
 	filter := make(map[string]interface{})
