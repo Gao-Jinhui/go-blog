@@ -61,3 +61,9 @@ func EditTag(id int, data interface{}) bool {
 
 	return true
 }
+
+func DeleteTag(id int) bool {
+	db.Where("id = ?", id).Delete(&Tag{})
+
+	return true
+}
