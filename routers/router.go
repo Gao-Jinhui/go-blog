@@ -15,13 +15,16 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 
 	gin.SetMode(setting.RunMode)
-
 	apiv1 := r.Group("/v1")
 	{
 		apiv1.POST("/tags/get", v1.GetTags)
 		apiv1.POST("/tags/add", v1.AddTag)
 		apiv1.POST("/tags/update", v1.EditTag)
 		apiv1.POST("/tags/delete", v1.DeleteTag)
+		apiv1.POST("/article/get", v1.GetArticles)
+		apiv1.POST("/article/add", v1.AddArticle)
+		apiv1.POST("/article/update", v1.EditArticle)
+		apiv1.POST("/article/delete", v1.DeleteARticle)
 	}
 
 	return r
