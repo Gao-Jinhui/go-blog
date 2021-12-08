@@ -24,7 +24,7 @@ func GetTags(c *gin.Context) {
 		response := new(interfaces.GetTagsResponse)
 		filter := ConvertToFilter(request)
 		response.Lists = models.GetTags(util.GetPage(c), setting.PageSize, filter)
-		response.Total = models.GetTagTotal(request)
+		response.Total = models.GetTagTotal(filter)
 		response.Code = e.SUCCESS
 		response.Msg = e.GetMsg(response.Code)
 		c.JSON(http.StatusOK, response)
