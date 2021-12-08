@@ -96,6 +96,31 @@ func EditTag(c *gin.Context) {
 
 //删除文章标签
 func DeleteTag(c *gin.Context) {
+	var request interfaces.DeleteTagRequest
+	if err := c.ShouldBindJSON(&request); err != nil {
+		response := InvalidParamsResponse()
+		c.JSON(http.StatusOK, response)
+		return
+	} else {
+		response := new(interfaces.DeleteTagResponse)
+		validate := validator.New()
+		if err := validate.Struct(&request); err != nil {
+			for _, err := range err.(validator.ValidationErrors) {
+				response.Error = append(response.Error, err.Error())
+			}
+			response.Code = e.INVALID_PARAMS
+			return
+		} else {
+			if !models.ExistTagByID(request.ID) {
+				response.Code = e.ERROR_NOT_EXIST_TAG
+			} else {
+				response.Code = e.SUCCESS
+				models.DeleteTag(request.ID)
+			}
+		}
+		response.Msg = e.GetMsg(response.Code)
+		c.JSON(http.StatusOK, response)
+	}
 }
 
 func InvalidParamsResponse() *interfaces.BaseResponse {
