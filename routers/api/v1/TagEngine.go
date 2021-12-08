@@ -3,7 +3,7 @@ package v1
 import (
 	"go-blog/e"
 	"go-blog/models"
-	"go-blog/routers/api/v1/interfaces"
+	. "go-blog/routers/api/v1/interfaces"
 	"go-blog/setting"
 	"go-blog/util"
 	"net/http"
@@ -15,13 +15,13 @@ import (
 
 //获取多个文章标签
 func GetTags(c *gin.Context) {
-	var request interfaces.GetTagsRequest
+	var request GetTagsRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		response := InvalidParamsResponse()
 		c.JSON(http.StatusOK, response)
 		return
 	} else {
-		response := new(interfaces.GetTagsResponse)
+		response := new(GetTagsResponse)
 		filter := ConvertToMap(request)
 		response.Lists = models.GetTags(util.GetPage(c), setting.PageSize, filter)
 		response.Total = models.GetTagTotal(filter)
@@ -34,13 +34,13 @@ func GetTags(c *gin.Context) {
 
 //新增文章标签
 func AddTag(c *gin.Context) {
-	var request interfaces.AddTagRequest
+	var request AddTagRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		response := InvalidParamsResponse()
 		c.JSON(http.StatusOK, response)
 		return
 	} else {
-		response := new(interfaces.AddTagResponse)
+		response := new(AddTagResponse)
 		validate := validator.New()
 		if err := validate.Struct(request); err != nil {
 			for _, err := range err.(validator.ValidationErrors) {
@@ -66,13 +66,13 @@ func AddTag(c *gin.Context) {
 
 //修改文章标签
 func EditTag(c *gin.Context) {
-	var request interfaces.EditTagRequest
+	var request EditTagRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		response := InvalidParamsResponse()
 		c.JSON(http.StatusOK, response)
 		return
 	} else {
-		response := new(interfaces.EditTagResponse)
+		response := new(EditTagResponse)
 		validate := validator.New()
 		if err := validate.Struct(&request); err != nil {
 			for _, err := range err.(validator.ValidationErrors) {
@@ -96,13 +96,13 @@ func EditTag(c *gin.Context) {
 
 //删除文章标签
 func DeleteTag(c *gin.Context) {
-	var request interfaces.DeleteTagRequest
+	var request DeleteTagRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		response := InvalidParamsResponse()
 		c.JSON(http.StatusOK, response)
 		return
 	} else {
-		response := new(interfaces.DeleteTagResponse)
+		response := new(DeleteTagResponse)
 		validate := validator.New()
 		if err := validate.Struct(&request); err != nil {
 			for _, err := range err.(validator.ValidationErrors) {
@@ -123,8 +123,8 @@ func DeleteTag(c *gin.Context) {
 	}
 }
 
-func InvalidParamsResponse() *interfaces.BaseResponse {
-	res := new(interfaces.BaseResponse)
+func InvalidParamsResponse() *BaseResponse {
+	res := new(BaseResponse)
 	res.Code = e.INVALID_PARAMS
 	res.Msg = e.GetMsg(res.Code)
 	return res
