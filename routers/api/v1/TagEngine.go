@@ -7,6 +7,7 @@ import (
 	"go-blog/setting"
 	"go-blog/util"
 	"net/http"
+	"reflect"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -21,7 +22,8 @@ func GetTags(c *gin.Context) {
 		return
 	} else {
 		response := new(interfaces.GetTagsResponse)
-		response.Lists = models.GetTags(util.GetPage(c), setting.PageSize, request)
+		filter := ConvertToFilter(request)
+		response.Lists = models.GetTags(util.GetPage(c), setting.PageSize, filter)
 		response.Total = models.GetTagTotal(request)
 		response.Code = e.SUCCESS
 		response.Msg = e.GetMsg(response.Code)
@@ -100,4 +102,14 @@ func InvalidParamsResponse() *interfaces.BaseResponse {
 	res.Code = e.INVALID_PARAMS
 	res.Msg = e.GetMsg(res.Code)
 	return res
+}
+
+func ConvertToFilter(request interface{}) map[string]interface{} {
+	typeOfRequest := reflect.TypeOf(request)
+	valueOfRequest := reflect.ValueOf(request)
+	filter := make(map[string]interface{})
+	for pos := 0; pos < typeOfRequest.NumField(); pos++ {
+		filter[typeOfRequest.Field(pos).Name] = valueOfRequest.Field(pos).Interface()
+	}
+	return filter
 }
