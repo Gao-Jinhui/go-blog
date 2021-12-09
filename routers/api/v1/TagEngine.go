@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//获取多个文章标签
+//@Summary 获取多个文章标签
 func GetTags(c *gin.Context) {
 	request := new(GetTagsRequest)
 	response := new(GetTagsResponse)
@@ -28,7 +28,7 @@ func GetTags(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-//新增文章标签
+//@Summary 新增文章标签
 func AddTag(c *gin.Context) {
 	request := new(AddTagRequest)
 	response := new(AddTagResponse)
@@ -48,7 +48,7 @@ func AddTag(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-//修改文章标签
+//@Summary 修改文章标签
 func UpdateTag(c *gin.Context) {
 	request := new(UpdateTagRequest)
 	response := new(UpdateTagResponse)
@@ -68,7 +68,7 @@ func UpdateTag(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-//删除文章标签
+//@Summary 删除文章标签
 func DeleteTag(c *gin.Context) {
 	request := new(DeleteTagRequest)
 	response := new(DeleteTagResponse)

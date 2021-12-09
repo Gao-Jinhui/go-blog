@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary 通过ID获取文章
 func GetArticleByID(c *gin.Context) {
 	request := new(GetArticleByIDRequest)
 	response := new(GetArticleByIDResponse)
@@ -25,6 +26,7 @@ func GetArticleByID(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary 通过标签获取文章
 func GetArticlesByTag(c *gin.Context) {
 	request := new(GetArticlesByTagRequest)
 	response := new(GetArticlesByTagResponse)
@@ -39,6 +41,7 @@ func GetArticlesByTag(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary 新增文章
 func AddArticle(c *gin.Context) {
 	request := new(AddArticleRequest)
 	response := new(AddArticleResponse)
@@ -59,6 +62,7 @@ func AddArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary 修改文章
 func UpdateArticle(c *gin.Context) {
 	request := new(UpdateArticleRequest)
 	response := new(UpdateArticleResponse)
@@ -78,6 +82,7 @@ func UpdateArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// @Summary 删除文章
 func DeleteArticle(c *gin.Context) {
 	request := new(DeleteArticleRequest)
 	response := new(DeleteArticleResponse)
