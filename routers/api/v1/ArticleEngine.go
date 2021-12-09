@@ -66,8 +66,8 @@ func AddArticle(c *gin.Context) {
 		c.JSON(http.StatusOK, GetValidatorErrorResponse(err))
 		return
 	}
-	if models.ExistArticleByID(request.ID) {
-		response.Code = e.ERROR_EXIST_TAG
+	if !models.ExistArticleByID(request.Tag_ID) {
+		response.Code = e.ERROR_NOT_EXIST_TAG
 		response.Msg = e.GetMsg(response.Code)
 		c.JSON(http.StatusOK, response)
 		return
