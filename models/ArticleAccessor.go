@@ -40,6 +40,11 @@ func GetArticleTotal(filter interface{}) int {
 	return count
 }
 
+func GetArticle(id int) (article Article) {
+	db.Preload("Tag").Where("id=?", id).First(&article)
+	return
+}
+
 func GetArticles(pageNum int, pageSize int, filter interface{}) []Article {
 	articles := []Article{}
 	db.Preload("Tag").Where(filter).Offset(pageNum).Limit(pageSize).Find(&articles)

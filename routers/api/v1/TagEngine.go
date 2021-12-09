@@ -17,7 +17,7 @@ import (
 func GetTags(c *gin.Context) {
 	var request GetTagsRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
-		response := InvalidParamsResponse()
+		response := GetInvalidParamsResponse()
 		c.JSON(http.StatusOK, response)
 		return
 	} else {
@@ -36,7 +36,7 @@ func GetTags(c *gin.Context) {
 func AddTag(c *gin.Context) {
 	var request AddTagRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
-		response := InvalidParamsResponse()
+		response := GetInvalidParamsResponse()
 		c.JSON(http.StatusOK, response)
 		return
 	} else {
@@ -68,7 +68,7 @@ func AddTag(c *gin.Context) {
 func EditTag(c *gin.Context) {
 	var request EditTagRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
-		response := InvalidParamsResponse()
+		response := GetInvalidParamsResponse()
 		c.JSON(http.StatusOK, response)
 		return
 	} else {
@@ -98,7 +98,7 @@ func EditTag(c *gin.Context) {
 func DeleteTag(c *gin.Context) {
 	var request DeleteTagRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
-		response := InvalidParamsResponse()
+		response := GetInvalidParamsResponse()
 		c.JSON(http.StatusOK, response)
 		return
 	} else {
@@ -123,7 +123,7 @@ func DeleteTag(c *gin.Context) {
 	}
 }
 
-func InvalidParamsResponse() *BaseResponse {
+func GetInvalidParamsResponse() *BaseResponse {
 	res := new(BaseResponse)
 	res.Code = e.INVALID_PARAMS
 	res.Msg = e.GetMsg(res.Code)

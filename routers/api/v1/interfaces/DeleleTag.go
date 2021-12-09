@@ -1,7 +1,7 @@
 package interfaces
 
 type DeleteTagRequest struct {
-	ID int `json:"id" validator:"required,gt=0"`
+	ID int `json:"id" validate:"required,gt=0"`
 }
 
 type DeleteTagResponse struct {
