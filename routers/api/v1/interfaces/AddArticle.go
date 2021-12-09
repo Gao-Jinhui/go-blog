@@ -6,7 +6,7 @@ type AddArticleRequest struct {
 	Desc       string `json:"desc"`
 	Content    string `json:"content" validate:"required"`
 	Created_By string `json:"created_by" validate:"required"`
-	State      *int   `json:"state" validate:"oneof=-1 1"`
+	State      int    `json:"state" validate:"oneof=-1 1"`
 }
 
 type AddArticleResponse struct {
