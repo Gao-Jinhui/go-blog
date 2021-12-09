@@ -11,5 +11,4 @@ type AddArticleRequest struct {
 
 type AddArticleResponse struct {
 	BaseResponse `json:"status"`
-	Error        []string `json:"error"`
 }
