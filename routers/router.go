@@ -24,7 +24,7 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/article/getbyid", v1.GetArticleByID)
 		apiv1.POST("/article/getbytag", v1.GetArticlesByTag)
 		apiv1.POST("/article/add", v1.AddArticle)
-		apiv1.POST("/article/update", v1.EditArticle)
+		apiv1.POST("/article/update", v1.UpdateArticle)
 		apiv1.POST("/article/delete", v1.DeleteARticle)
 	}
 

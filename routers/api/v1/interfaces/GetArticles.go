@@ -12,8 +12,8 @@ type GetArticleByIDResponse struct {
 }
 
 type GetArticlesByTagRequest struct {
-	Tag_ID *int `json:"tag_id" validate:"required,gt=0"`
-	State  *int `json:"state" validate:"required,oneof=0 1"`
+	Tag_ID int `json:"tag_id" validate:"required,gt=0"`
+	State  int `json:"state" validate:"required,oneof=-1 1"`
 }
 
 type GetArticlesByTagResponse struct {
