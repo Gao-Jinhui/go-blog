@@ -106,8 +106,17 @@ func UpdateArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func DeleteARticle(c *gin.Context) {
-
+func DeleteArticle(c *gin.Context) {
+	request := new(DeleteArticleRequest)
+	response := new(DeleteArticleResponse)
+	if response.Code = BindAndValidateParams(c, request); response.Code != e.SUCCESS {
+		response.Msg = e.GetMsg(response.Code)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	response.Msg = e.GetMsg(response.Code)
+	models.DeleteArticle(request.ID)
+	c.JSON(http.StatusOK, response)
 }
 
 func GetValidatorErrorResponse(err error) *ValidatorErrorResponse {
@@ -118,4 +127,15 @@ func GetValidatorErrorResponse(err error) *ValidatorErrorResponse {
 	response.Code = e.ERROR_VALIDATOR
 	response.Msg = e.GetMsg(response.Code)
 	return &response
+}
+
+func BindAndValidateParams(c *gin.Context, request interface{}) int {
+	if err := c.ShouldBindJSON(request); err != nil {
+		return e.INVALID_PARAMS
+	}
+	validate := validator.New()
+	if err := validate.Struct(request); err != nil {
+		return e.ERROR_VALIDATOR
+	}
+	return e.SUCCESS
 }
