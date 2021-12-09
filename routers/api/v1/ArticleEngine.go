@@ -35,7 +35,7 @@ func GetArticlesByTag(c *gin.Context) {
 	}
 	response.Code = e.SUCCESS
 	response.Msg = e.GetMsg(response.Code)
-	response.Data = models.GetArticles(util.GetPage(c), setting.PageSize, ConvertToMap(*request))
+	response.Data = models.GetArticles(util.GetPage(c), setting.PageSize, util.ConvertToMap(*request))
 	c.JSON(http.StatusOK, response)
 }
 
@@ -55,7 +55,7 @@ func AddArticle(c *gin.Context) {
 	}
 	response.Code = e.SUCCESS
 	response.Msg = e.GetMsg(response.Code)
-	models.AddArticle(ConvertToMap(*request))
+	models.AddArticle(util.ConvertToMap(*request))
 	c.JSON(http.StatusOK, response)
 }
 
