@@ -1,7 +1,7 @@
 package interfaces
 
 type AddArticleRequest struct {
-	ID        int    `json:"tag_id" validate:"gt=0"`
+	Tag_ID    int    `json:"tag_id" validate:"gt=0"`
 	Title     string `json:"title" validate:"required"`
 	Desc      string `json:"desc"`
 	Content   string `json:"content" validate:"required"`

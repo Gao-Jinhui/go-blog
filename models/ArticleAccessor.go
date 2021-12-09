@@ -58,7 +58,7 @@ func EditArticle(id int, data interface{}) bool {
 
 func AddArticle(data map[string]interface{}) bool {
 	db.Create(&Article{
-		TagID:     data["ID"].(int),
+		TagID:     data["Tag_ID"].(int),
 		Title:     data["Title"].(string),
 		Desc:      data["Desc"].(string),
 		Content:   data["Content"].(string),
