@@ -45,7 +45,7 @@ func GetArticle(id int) (article Article) {
 	return
 }
 
-func GetArticles(pageNum int, pageSize int, filter interface{}) []Article {
+func GetArticles(pageNum int, pageSize int, filter map[string]interface{}) []Article {
 	articles := []Article{}
 	db.Preload("Tag").Where(filter).Offset(pageNum).Limit(pageSize).Find(&articles)
 	return articles

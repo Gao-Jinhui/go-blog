@@ -5,6 +5,8 @@ import (
 	"go-blog/e"
 	"go-blog/models"
 	. "go-blog/routers/api/v1/interfaces"
+	"go-blog/setting"
+	"go-blog/util"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,12 +28,30 @@ func GetArticleByID(c *gin.Context) {
 	response := new(GetArticleByIDResponse)
 	response.Code = e.SUCCESS
 	response.Msg = e.GetMsg(response.Code)
-	response.Data = models.GetArticle(request.ID)
+	response.Data = models.GetArticle(*(request.ID))
 	c.JSON(http.StatusOK, response)
 }
 
 func GetArticlesByTag(c *gin.Context) {
-
+	var request GetArticlesByTagRequest
+	response := new(GetArticlesByTagResponse)
+	if err := c.ShouldBindJSON(&request); err != nil {
+		response.Code = e.INVALID_PARAMS
+		response.Msg = e.GetMsg(response.Code)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	validate := validator.New()
+	if err := validate.Struct(&request); err != nil {
+		response.Code = e.ERROR_VALIDATOR
+		response.Msg = e.GetMsg(response.Code)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	response.Code = e.SUCCESS
+	response.Msg = e.GetMsg(response.Code)
+	response.Data = models.GetArticles(util.GetPage(c), setting.PageSize, ConvertToMap(request))
+	c.JSON(http.StatusOK, response)
 }
 
 func AddArticle(c *gin.Context) {
