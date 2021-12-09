@@ -8,14 +8,14 @@ import (
 
 type Article struct {
 	Model
-	TagID      int    `json:"tag_id" gorm:"index"`
-	Tag        Tag    `json:"tag"`
-	Title      string `json:"title"`
-	Desc       string `json:"desc"`
-	Content    string `json:"content"`
-	CreatedBy  string `json:"created_by"`
-	ModifiedBy string `json:"modified_by"`
-	State      int    `json:"state"`
+	TagID       int    `json:"tag_id" gorm:"index"`
+	Tag         Tag    `json:"tag"`
+	Title       string `json:"title"`
+	Desc        string `json:"desc"`
+	Content     string `json:"content"`
+	Created_By  string `json:"created_by"`
+	Modified_By string `json:"modified_by"`
+	State       int    `json:"state"`
 }
 
 func (article *Article) BeforeCreate(scope *gorm.Scope) error {
@@ -51,19 +51,19 @@ func GetArticles(pageNum int, pageSize int, filter map[string]interface{}) []Art
 	return articles
 }
 
-func EditArticle(id int, data interface{}) bool {
+func UpdateArticle(id int, data interface{}) bool {
 	db.Model(&Article{}).Where("id=?", id).Updates(data)
 	return true
 }
 
 func AddArticle(data map[string]interface{}) bool {
 	db.Create(&Article{
-		TagID:     data["Tag_ID"].(int),
-		Title:     data["Title"].(string),
-		Desc:      data["Desc"].(string),
-		Content:   data["Content"].(string),
-		CreatedBy: data["CreatedBy"].(string),
-		State:     data["State"].(int),
+		TagID:      data["Tag_ID"].(int),
+		Title:      data["Title"].(string),
+		Desc:       data["Desc"].(string),
+		Content:    data["Content"].(string),
+		Created_By: data["Created_By"].(string),
+		State:      data["State"].(int),
 	})
 
 	return true

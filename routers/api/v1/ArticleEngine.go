@@ -79,8 +79,31 @@ func AddArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func EditArticle(c *gin.Context) {
-
+func UpdateArticle(c *gin.Context) {
+	request := new(UpdateArticleRequest)
+	response := new(UpdateArticleResponse)
+	if err := c.ShouldBindJSON(&request); err != nil {
+		response.Code = e.INVALID_PARAMS
+		response.Msg = e.GetMsg(response.Code)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	validate := validator.New()
+	if err := validate.Struct(request); err != nil {
+		response.Code = e.ERROR_VALIDATOR
+		response.Msg = e.GetMsg(response.Code)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	if !models.ExistArticleByID(request.ID) {
+		response.Code = e.ERROR_NOT_EXIST_ARTICLE
+		response.Msg = e.GetMsg(response.Code)
+		return
+	}
+	response.Code = e.SUCCESS
+	response.Msg = e.GetMsg(response.Code)
+	models.UpdateArticle(request.ID, request)
+	c.JSON(http.StatusOK, response)
 }
 
 func DeleteARticle(c *gin.Context) {
