@@ -1,6 +1,7 @@
 package routers
 
 import (
+	jwt "go-blog/Middleware/Jwt"
 	v1 "go-blog/routers/api/v1"
 	"go-blog/setting"
 
@@ -21,7 +22,9 @@ func InitRouter() *gin.Engine {
 
 	gin.SetMode(setting.RunMode)
 	apiv1 := r.Group("/v1")
+	apiv1.Use(jwt.JWT())
 	{
+		apiv1.POST("/login", v1.GetAuth)
 		apiv1.POST("/tags/get", v1.GetTags)
 		apiv1.POST("/tags/add", v1.AddTag)
 		apiv1.POST("/tags/update", v1.UpdateTag)
